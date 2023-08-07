@@ -26,9 +26,9 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.sessions (
     id integer NOT NULL,
-    token integer,
-    createdat timestamp without time zone NOT NULL,
-    userid integer NOT NULL
+    token uuid,
+    userid integer,
+    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -58,12 +58,32 @@ ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 CREATE TABLE public.urls (
     id integer NOT NULL,
-    url text NOT NULL,
-    shorturl text NOT NULL,
-    createdat timestamp without time zone NOT NULL,
-    visitcount integer,
-    userid integer NOT NULL
+    url text,
+    shorturl text,
+    userid integer,
+    visitscount integer DEFAULT 0,
+    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
+
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.urls_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 
 
 --
@@ -72,11 +92,11 @@ CREATE TABLE public.urls (
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    name text NOT NULL,
-    email text NOT NULL,
-    password text NOT NULL,
-    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    linkscount integer
+    name text,
+    email text,
+    password text,
+    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    linkscount integer DEFAULT 0
 );
 
 
@@ -105,6 +125,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 --
 
 ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: urls id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.urls ALTER COLUMN id SET DEFAULT nextval('public.urls_id_seq'::regclass);
 
 
 --
@@ -140,6 +167,13 @@ SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
 
 
 --
+-- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -152,6 +186,22 @@ SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sessions sessions_token_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_token_key UNIQUE (token);
+
+
+--
+-- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.urls
+    ADD CONSTRAINT urls_pkey PRIMARY KEY (id);
 
 
 --
