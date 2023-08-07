@@ -4,7 +4,7 @@ import { validateAuth } from "../middlewares/validateAuth.js";
 
 const userRouter = Router();
 userRouter.get("/users/me", validateAuth, getUserData);
-userRouter.get("/ranking", validateAuth, getRanking);
+userRouter.get("/ranking", getRanking);
 
 export default userRouter;
 
