@@ -10,7 +10,7 @@ export async function validateAuth(req, res, next) {
 
     try {
         const session = await db.query(`SELECT * FROM sessions WHERE "token"=$1`, [token]);
-
+    
         if (session.rowCount === 0) {
             return res.sendStatus(401);
         }

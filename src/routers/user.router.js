@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getUser, getVisits } from "../repositories/user.repository.js";
+import { getRanking, getUserData } from "../controllers/user.controller.js";
+import { validateAuth } from "../middlewares/validateAuth.js";
 
 const userRouter = Router();
-userRouter.get("/users/me", getUser);
-userRouter.get("/ranking", getVisits);
+userRouter.get("/users/me", validateAuth, getUserData);
+userRouter.get("/ranking", validateAuth, getRanking);
 
 export default userRouter;
 
