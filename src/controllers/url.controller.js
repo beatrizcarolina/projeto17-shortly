@@ -27,7 +27,7 @@ export async function getUrl(req,res) {
         return res.send({
             id: url.id,
             url: url.url,
-            shorUrl: url.shorturl
+            shortUrl: url.shorturl
         });        
     } catch (error) {
         return res.status(500).send(error.message);
