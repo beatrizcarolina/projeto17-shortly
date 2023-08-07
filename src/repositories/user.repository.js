@@ -11,7 +11,7 @@ export async function getUser(id) {
                     'id', urls.id, 
                     'shortUrl', urls."shorturl", 
                     'url', urls.url, 
-                    'visitcount', urls."visitscount")
+                    'visitCount', urls."visitscount")
                     ORDER BY urls.id
                 ) AS "shortenedUrls"
         FROM users
