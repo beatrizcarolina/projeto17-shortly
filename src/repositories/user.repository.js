@@ -5,7 +5,7 @@ export async function getUser(id) {
         SELECT 
             users.id, 
             users.name,
-            SUM(urls."visitscount") AS "visitscount",
+            SUM(urls."visitscount") AS "visitCount",
             array_agg(
                     json_build_object(
                     'id', urls.id, 
