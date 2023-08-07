@@ -27,6 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.sessions (
     id integer NOT NULL,
     token integer,
+    createdat timestamp without time zone NOT NULL,
     userid integer NOT NULL
 );
 
