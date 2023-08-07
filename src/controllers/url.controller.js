@@ -23,10 +23,11 @@ export async function getUrl(req,res) {
         if (!url) {
             return res.sendStatus(404);
         };
+
         return res.send({
             id: url.id,
-            shortUrl: url.shortUrl,
             url: url.url,
+            shorUrl: url.shorturl
         });        
     } catch (error) {
         return res.status(500).send(error.message);

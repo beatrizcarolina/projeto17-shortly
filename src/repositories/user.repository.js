@@ -5,13 +5,13 @@ export async function getUser(id) {
         SELECT 
             users.id, 
             users.name,
-            SUM(urls."visitCount") AS "visitCount",
+            SUM(urls."visitscount") AS "visitscount",
             array_agg(
                     json_build_object(
                     'id', urls.id, 
-                    'shortUrl', urls."shortUrl", 
+                    'shortUrl', urls."shorturl", 
                     'url', urls.url, 
-                    'visitCount', urls."visitCount")
+                    'visitcount', urls."visitscount")
                     ORDER BY urls.id
                 ) AS "shortenedUrls"
         FROM users
@@ -27,12 +27,12 @@ export async function getVisits() {
     const visits = await db.query(`
         SELECT 
             users.id, users.name,
-            COUNT(urls) AS "linksCount",
-            SUM(urls."visitCount") AS "visitCount"
+            COUNT(urls) AS "linkscount",
+            SUM(urls."visitscount") AS "visitscount"
         FROM users
         LEFT JOIN urls ON users.id = urls.userid
         GROUP BY users.id, users.name
-        ORDER BY "visitCount" DESC
+        ORDER BY "visitscount" DESC
         LIMIT 10;
     `);
 
